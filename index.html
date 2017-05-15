@@ -1,0 +1,247 @@
+<html>
+    <head>
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif
+}
+#gameboard {
+    flex-grow:1;
+    position: relative;
+}
+.game {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+#renderTarget {
+    font-size: 10pt;
+    width:100%;
+    height: 100%;
+    border:1px solid black;
+    position: absolute;
+    overflow: hidden;
+    flex-grow: 1;
+}
+.user-el {
+    position: absolute;
+    pointer-events: none;
+    transition: transform 0.5s;
+    width:100%;
+    height:100%;
+
+}
+.notify {
+    animation: 0.5s ease 0s notify;
+}
+@keyframes notify {
+    0% {
+        transform: rotate(0deg)
+
+    }
+    25% {
+        transform: rotate(15deg)
+    }
+
+    75% {
+        transform: rotate(-15deg)
+    }
+        100% {
+        transform: rotate(0deg)
+    }
+    
+}
+.deleting {
+    animation: 0.5s ease 0s delete;
+}
+@keyframes delete {
+    0% {
+        transform: scale(1,1)
+
+    }
+    66% {
+        transform: scale(1.5,1.5)
+    }
+    100% {
+        transform: scale(0,0)
+    }
+    
+}
+.user-el>.user-visual {
+    transition: left 0.5s, top 0.5s, background-color 0.5s,transform 0.1s,border 0.25s;
+    display: inline-block;
+    text-align: center;
+    transform: translate(-50%,-50%);
+}
+.user-dot {
+    display: inline-block;
+    width:5px;
+    height: 5px;
+    border-radius: 3px;
+    border: 1px solid black;
+    transition: left 0.5s, top 0.5s, background-color 0.5s,transform 0.1s,border 0.25s;
+}
+.user-anim.dragging {
+    transform: scale(1.7,1.7)
+}
+.user-anim.dragging>.user-dot {
+    /*border: 1px solid red;*/
+}
+.user-text {
+    text-align: center;
+    user-select: none;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+.hide-mouse {
+    cursor: none
+}
+
+#entry {
+    display:flex;
+    border: 1px solid transparent;
+}
+#textInput {
+    flex-grow:1;
+    padding:1em;
+}
+#sendText{
+    padding-left:1em;
+    padding-right: 1em;
+}
+#title {
+    font-size: 48pt;
+    margin: 0.25em;
+    font-weight: 900;
+    flex-grow:1;
+}
+#help {
+    font-size: 48pt;
+    margin: 0.25em;
+    font-weight: 900;
+    opacity:0.1;
+    border:1px solid black;
+    border-radius:5px;
+    padding:0.25em;
+    padding-top: 0;
+    padding-bottom: 0;
+    user-select: none;
+}
+#help:hover {
+    opacity:0.3;
+    cursor:pointer;
+}
+#helpTooltipCloseButton {
+font-size: 18pt;
+    font-weight: 900;
+    opacity: 0.2;
+    border-radius: 5px;
+    padding: 0.25em;
+    padding-top: 0;
+    padding-bottom: 0;
+    position: absolute;
+    right: 0.72em;
+    user-select: none;
+}
+#helpTooltipCloseButton:hover {
+    opacity:0.4;
+    cursor:pointer;
+}
+#helpTooltip {
+    position: absolute;
+    min-width: 500px;
+    width: 80%;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+    background-color: white;
+    border: 1px solid lightgrey;
+    padding: 1em;
+}
+#titleRow {
+    display:flex;
+}
+#colorPicker * {
+    user-select: none;
+}
+#colorPicker {
+    user-select: none;
+    z-index: 1;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#picker-toggle {
+    display: inline-block;
+   cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg,red,orange,yellow,lightgreen,deepskyblue,indigo);
+    border-radius: 5px;
+    border: 2px solid black;
+}
+#color-line {
+    display: inline-block;
+    margin-top: 0.25em;
+    cursor: pointer;
+    width: 12px;
+    height: 140px;
+    background: linear-gradient(0deg,red,orange,yellow,lightgreen,deepskyblue,indigo);
+    border-radius: 5px;
+    border: 2px solid black;
+}
+.hide {
+    display:none!important;
+}
+    </style>
+        </head>
+<body>
+<div class="game">
+    <div id="titleRow">
+                <h1 id="title"> Town Square. </h1> 
+                <h1 id="help">?</h1>
+        </div>
+        <div id="gameboard">
+            <div id="helpTooltip" class="hide">
+                <div id="helpTooltipCloseButton">X</div>
+                <h1> Welcome to Town Square! </h1>
+                <p> This is a chat app where you can move around and change your color. </p> 
+                <p> Move by clicking and dragging anywhere (once you close this tooltip, by pressing 'x' in the top right) 
+                    and change your color by clicking on the rainbow square in the top right of the chat window. </p>
+                <p> To send a message, click on the text box below (or press enter), type something, and press send (or press enter)!</p>
+                <p> Hopefully you enjoy this! </p>
+                </div>
+            <div id="colorPicker">
+            <div id="picker-toggle"> </div>
+            <div id="color-line" class="hide" ></div>
+            </div>
+       <div id="renderTarget">
+
+       </div>
+       </div>
+       <div id="entryRow">
+       <div id="entry" >
+       <input placeholder="Press enter to chat." id="textInput" maxlength=140 type="text">
+       <button id="sendText"> Send </button>
+       </div>
+       </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://static.hherman.com/js/system.js"></script>
+    <script>
+        // System.transpiler = 'typescript';
+        // System.meta['typescript'] = { format: 'global', exports: 'ts' };
+        // System.paths = {
+        //     '*': '*.ts',
+        //     'typescript': 'node_modules/typescript/lib/typescript.js'
+        // }
+        System.import('build/build.js').then(function(m) {
+            System.load("main");
+        });
+    </script>
+</body>
+</html>
