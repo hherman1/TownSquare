@@ -6,7 +6,11 @@
     }
     return element;
   }
-  var conn = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + window.location.pathname + "sock");
+  var wsscheme = "ws";
+  if (location.scheme === "https") {
+    wsscheme = "wss";
+  }
+  var conn = new WebSocket(wsscheme + "://" + window.location.hostname + ":" + window.location.port + window.location.pathname + "sock");
   var renderTarget = throwIfNull(document.getElementById("renderTarget"));
   var textInput = throwIfNull(document.getElementById("textInput"));
   var sendTextButton = throwIfNull(document.getElementById("sendText"));

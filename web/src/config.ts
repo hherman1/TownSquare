@@ -7,7 +7,12 @@ export function throwIfNull<T>(element: T | null): T  {
     return element
 }
 
-export var conn = new WebSocket("ws://" + window.location.hostname +":" + window.location.port + window.location.pathname  + "sock")
+var wsscheme = "ws"
+if (location.scheme === "https") {
+	wsscheme = "wss";
+}
+
+export var conn = new WebSocket(wsscheme + "://" + window.location.hostname +":" + window.location.port + window.location.pathname  + "sock")
 export var renderTarget = <HTMLDivElement>throwIfNull(document.getElementById("renderTarget"))
 export var textInput = <HTMLInputElement>throwIfNull(document.getElementById("textInput"))
 export var sendTextButton = <HTMLButtonElement>throwIfNull(document.getElementById("sendText"))
