@@ -7,9 +7,7 @@ export function throwIfNull<T>(element: T | null): T  {
     return element
 }
 
-var url = "ws://hherman.com/townSquare/sock"
-
-export var conn = new WebSocket(url)
+export var conn = new WebSocket("ws://" + window.location.hostname +":" + window.location.port + window.location.pathname  + "sock")
 export var renderTarget = <HTMLDivElement>throwIfNull(document.getElementById("renderTarget"))
 export var textInput = <HTMLInputElement>throwIfNull(document.getElementById("textInput"))
 export var sendTextButton = <HTMLButtonElement>throwIfNull(document.getElementById("sendText"))

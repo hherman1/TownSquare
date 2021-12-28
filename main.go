@@ -1,6 +1,9 @@
 package main
 
 import (
+	"embed"
+	"fmt"
+	"io/fs"
 	"net/http"
 	"os"
 
@@ -105,7 +108,7 @@ func sock(w http.ResponseWriter, r *http.Request) {
 	cli := Client{conn: conn, name: uuid.NewV4()}
 	err = conn.WriteMessage(websocket.TextMessage, []byte(`
 	[{
-		"Identity":"`+cli.name.String()+`"	
+		"Identity":"`+cli.name.String()+`"
 	}]`))
 	if err != nil {
 		log.Println(err)
@@ -147,9 +150,19 @@ func distRoomMessages() {
 	}
 }
 
+//go:generate esbuild web/src/main.ts --bundle --outfile=web/out.js
+//go:embed web
+var web embed.FS
+
 func main() {
 	go distRoomMessages()
 	http.HandleFunc("/sock", sock)
+	sub, err := fs.Sub(web, "web")
+	if err != nil {
+		fmt.Println("construct subFS: ", err)
+		os.Exit(1)
+	}
+	http.Handle("/", http.FileServer(http.FS(sub)))
 	port := ":" + os.Args[1]
 	log.Fatalln(http.ListenAndServe(port, nil))
 }

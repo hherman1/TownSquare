@@ -48,7 +48,7 @@ body {
         100% {
         transform: rotate(0deg)
     }
-    
+
 }
 .deleting {
     animation: 0.5s ease 0s delete;
@@ -64,7 +64,7 @@ body {
     100% {
         transform: scale(0,0)
     }
-    
+
 }
 .user-el>.user-visual {
     transition: left 0.5s, top 0.5s, background-color 0.5s,transform 0.1s,border 0.25s;
@@ -202,15 +202,15 @@ font-size: 18pt;
 <body>
 <div class="game">
     <div id="titleRow">
-                <h1 id="title"> Town Square. </h1> 
+                <h1 id="title"> Town Square. </h1>
                 <h1 id="help">?</h1>
         </div>
         <div id="gameboard">
             <div id="helpTooltip" class="hide">
                 <div id="helpTooltipCloseButton">X</div>
                 <h1> Welcome to Town Square! </h1>
-                <p> This is a chat app where you can move around and change your color. </p> 
-                <p> Move by clicking and dragging anywhere (once you close this tooltip, by pressing 'x' in the top right) 
+                <p> This is a chat app where you can move around and change your color. </p>
+                <p> Move by clicking and dragging anywhere (once you close this tooltip, by pressing 'x' in the top right)
                     and change your color by clicking on the rainbow square in the top right of the chat window. </p>
                 <p> To send a message, click on the text box below (or press enter), type something, and press send (or press enter)!</p>
                 <p> Hopefully you enjoy this! </p>
@@ -231,17 +231,6 @@ font-size: 18pt;
        </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://static.hherman.com/js/system.js"></script>
-    <script>
-        // System.transpiler = 'typescript';
-        // System.meta['typescript'] = { format: 'global', exports: 'ts' };
-        // System.paths = {
-        //     '*': '*.ts',
-        //     'typescript': 'node_modules/typescript/lib/typescript.js'
-        // }
-        System.import('build/build.js').then(function(m) {
-            System.load("main");
-        });
-    </script>
+    <script type="text/javascript" src="out.js"></script>
 </body>
 </html>
