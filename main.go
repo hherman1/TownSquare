@@ -154,7 +154,7 @@ func distRoomMessages() {
 //go:embed web
 var web embed.FS
 
-var port = os.Getenv("port")
+var port = os.Getenv("PORT")
 
 func main() {
 	go distRoomMessages()
