@@ -1,4 +1,4 @@
-module github.com/hherman1/TownSquare/server
+module github.com/hherman1/TownSquare
 
 go 1.17
 

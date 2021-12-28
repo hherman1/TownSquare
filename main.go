@@ -154,6 +154,8 @@ func distRoomMessages() {
 //go:embed web
 var web embed.FS
 
+var port = os.Getenv("port")
+
 func main() {
 	go distRoomMessages()
 	http.HandleFunc("/sock", sock)
@@ -163,6 +165,5 @@ func main() {
 		os.Exit(1)
 	}
 	http.Handle("/", http.FileServer(http.FS(sub)))
-	port := ":" + os.Args[1]
-	log.Fatalln(http.ListenAndServe(port, nil))
+	log.Fatalln(http.ListenAndServe(":" + port, nil))
 }
