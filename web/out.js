@@ -7,7 +7,7 @@
     return element;
   }
   var wsscheme = "ws";
-  if (location.scheme === "https") {
+  if (location.protocol === "https:") {
     wsscheme = "wss";
   }
   var conn = new WebSocket(wsscheme + "://" + window.location.hostname + ":" + window.location.port + window.location.pathname + "sock");

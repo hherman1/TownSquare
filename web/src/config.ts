@@ -8,7 +8,7 @@ export function throwIfNull<T>(element: T | null): T  {
 }
 
 var wsscheme = "ws"
-if (location.scheme === "https") {
+if (location.protocol === "https:") {
 	wsscheme = "wss";
 }
 
